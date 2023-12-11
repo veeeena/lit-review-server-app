@@ -3,15 +3,20 @@ import reviewBookModel from "../review-books/model.js"
 import usersModel from "../users/model.js"
 
 export const createReview = async (review) =>{
-  let rev = await model.create(review)
+  const rev = await model.create(review)
   try {
-    return await rev
+    const revWithReviewBook = await rev
         .populate({
             path: 'reviewBookId',
             model: reviewBookModel,
             select: ['author', 'title', 'bookKey'],
         })
-        .exec();
+    return revWithReviewBook
+        .populate({
+            path: 'readerId',
+            model: usersModel,
+            select: ['username'], // Only retrieve the username
+    })
     } catch (error) {
         console.error('Error creating review:', error);
         throw error;
