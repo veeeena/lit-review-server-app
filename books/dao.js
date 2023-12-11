@@ -6,9 +6,9 @@ export const createBook = (book) => model.create(book);
 export const findAllBooks = () => model.find();
 
 export const findBooksByTitle = (bookTitle) => {
-  const titleRegex = `/${bookTitle}/`
-  console.log(titleRegex);
-  return model.find({ title: { $regex : /book/ } })
+    const s = bookTitle.toString();
+    const regex = new RegExp(s, 'i')
+    return model.find({ title: { $regex : regex } })
 };
 
 export const findBooksByAuthor = (bookAuthor) =>
